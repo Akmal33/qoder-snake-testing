@@ -381,9 +381,16 @@ class InputHandler {
      * @returns {boolean} True if mobile device
      */
     detectMobile() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
-               window.innerWidth <= 768;
+        // Check user agent
+        const userAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Check touch capabilities
+        const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        // Check screen size
+        const smallScreen = window.innerWidth <= 1024 || window.innerHeight <= 768;
+        
+        return userAgent || (hasTouch && smallScreen);
     }
 
     /**
@@ -393,20 +400,40 @@ class InputHandler {
         const gamepad = document.getElementById('mobile-gamepad');
         if (!gamepad) return;
         
-        // Show gamepad on mobile devices or small screens
-        if (this.isMobile || window.innerWidth <= 1024) {
-            gamepad.style.display = 'flex';
-        }
+        this.updateGamepadVisibility();
         
-        // Handle window resize for responsive gamepad
+        // Handle window resize and orientation change for responsive gamepad
         window.addEventListener('resize', () => {
-            const isMobileSize = window.innerWidth <= 1024;
-            if (this.isMobile || isMobileSize) {
-                gamepad.style.display = 'flex';
-            } else {
-                gamepad.style.display = 'none';
-            }
+            setTimeout(() => this.updateGamepadVisibility(), 100);
         });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.updateGamepadVisibility(), 300);
+        });
+    }
+    
+    /**
+     * Update gamepad visibility based on device and screen size
+     */
+    updateGamepadVisibility() {
+        const gamepad = document.getElementById('mobile-gamepad');
+        if (!gamepad) return;
+        
+        const isMobileSize = window.innerWidth <= 1024;
+        const isLandscape = window.innerWidth > window.innerHeight;
+        
+        if (this.isMobile || isMobileSize) {
+            gamepad.style.display = 'flex';
+            
+            // Adjust gamepad for landscape mode
+            if (isLandscape && window.innerWidth <= 768) {
+                gamepad.classList.add('landscape-mode');
+            } else {
+                gamepad.classList.remove('landscape-mode');
+            }
+        } else {
+            gamepad.style.display = 'none';
+        }
     }
 
     /**

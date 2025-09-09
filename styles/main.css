@@ -29,6 +29,11 @@ body {
     justify-content: center;
     align-items: center;
     line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
 /* Game Container */
@@ -40,6 +45,10 @@ body {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Header Styles */
@@ -95,8 +104,11 @@ body {
     background: var(--board-bg);
     border: 2px solid var(--border-color);
     border-radius: 6px;
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Game Overlay */
@@ -204,12 +216,12 @@ body {
 
 /* Responsive Design */
 
-/* Tablet Styles */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablet Portrait Styles */
+@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
     .game-container {
         width: 70vw;
         max-width: 500px;
-        padding-bottom: 160px; /* Space for gamepad */
+        padding-bottom: 160px;
     }
     
     #game-canvas {
@@ -227,12 +239,10 @@ body {
         max-width: 250px;
     }
     
-    /* Show mobile gamepad on tablet */
     .mobile-gamepad {
         display: flex !important;
     }
     
-    /* Adjust gamepad size for tablet */
     .dpad {
         width: 140px;
         height: 140px;
@@ -245,8 +255,172 @@ body {
     }
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
+/* Tablet Landscape Styles */
+@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .game-container {
+        width: 100vw;
+        height: 100vh;
+        max-width: 100vw;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .game-header {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+    }
+    
+    .game-main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 80px;
+    }
+    
+    #game-canvas {
+        width: auto;
+        height: calc(100vh - 160px);
+        max-height: calc(100vh - 160px);
+        max-width: calc(100vw - 400px);
+    }
+    
+    .mobile-gamepad {
+        display: flex !important;
+        bottom: 15px;
+        padding: 0 40px;
+    }
+    
+    .dpad {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .action-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+    }
+}
+
+/* Mobile Landscape Optimization */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    body {
+        padding: 5px;
+        overflow: hidden;
+    }
+    
+    .game-container {
+        width: 100vw;
+        height: 100vh;
+        max-width: 100vw;
+        max-height: 100vh;
+        padding: 10px;
+        margin: 0;
+        border-radius: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .game-header {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        margin-bottom: 0;
+    }
+    
+    .game-title {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+    
+    .score-container {
+        flex-direction: row;
+        gap: 20px;
+        max-width: none;
+    }
+    
+    .game-main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding-top: 60px;
+    }
+    
+    #game-canvas {
+        width: auto;
+        height: calc(100vh - 120px);
+        max-height: calc(100vh - 120px);
+        max-width: calc(100vw - 300px);
+    }
+    
+    .game-footer {
+        display: none;
+    }
+    
+    /* Landscape Gamepad Layout */
+    .mobile-gamepad {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        height: 100px;
+    }
+    
+    .dpad {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .dpad-btn {
+        font-size: 14px;
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+        gap: 15px;
+    }
+    
+    .action-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    .game-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+    }
+}
+
+/* Mobile Portrait Styles */
+@media screen and (max-width: 768px) and (orientation: portrait) {
     body {
         padding: 10px;
     }
@@ -256,7 +430,8 @@ body {
         max-width: 100vw;
         padding: 15px;
         border-radius: 6px;
-        padding-bottom: 180px; /* Space for gamepad */
+        padding-bottom: 180px;
+        min-height: calc(100vh - 20px);
     }
     
     .game-title {
@@ -264,68 +439,32 @@ body {
         margin-bottom: 10px;
     }
     
-    .score-container {
-        flex-direction: column;
-        gap: 8px;
-        max-width: 200px;
-    }
-    
-    .score-display,
-    .high-score-display {
-        padding: 6px 12px;
-    }
-    
-    #current-score,
-    #high-score {
-        font-size: 1.2rem;
-    }
-    
     #game-canvas {
         width: 100%;
         height: auto;
-        max-height: 60vh;
+        max-width: 100%;
+        max-height: 50vh;
     }
     
-    .overlay-content {
-        padding: 20px;
+    /* Portrait Gamepad */
+    .mobile-gamepad {
+        display: flex !important;
+        bottom: 20px;
     }
     
-    #overlay-title {
-        font-size: 1.5rem;
+    .dpad {
+        width: 120px;
+        height: 120px;
     }
     
-    #overlay-message {
-        font-size: 1rem;
-    }
-    
-    .control-buttons {
+    .action-buttons {
+        flex-direction: column;
         gap: 10px;
     }
     
-    .game-button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-    
-    .desktop-controls {
-        display: none;
-    }
-    
-    .mobile-controls {
-        display: block;
-    }
-    
-    .controls-info h3 {
-        font-size: 1rem;
-    }
-    
-    .controls-info p {
-        font-size: 0.8rem;
-    }
-    
-    /* Show mobile gamepad on mobile */
-    .mobile-gamepad {
-        display: flex !important;
+    .action-btn {
+        width: 60px;
+        height: 60px;
     }
 }
 
@@ -434,6 +573,11 @@ body {
     background: var(--button-hover);
     transform: scale(0.9);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    border-color: var(--snake-head);
+}
+
+.dpad-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
 }
 
 .dpad-up {
@@ -493,6 +637,11 @@ body {
     background: var(--button-hover);
     transform: scale(0.9);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    border-color: var(--snake-head);
+}
+
+.action-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
 }
 
 /* Hide gamepad on desktop by default */
@@ -500,6 +649,27 @@ body {
     .mobile-gamepad {
         display: none !important;
     }
+}
+
+/* Landscape mode adjustments */
+.mobile-gamepad.landscape-mode {
+    bottom: 5px;
+    height: 80px;
+}
+
+.mobile-gamepad.landscape-mode .dpad {
+    width: 80px;
+    height: 80px;
+}
+
+.mobile-gamepad.landscape-mode .dpad-btn {
+    font-size: 12px;
+}
+
+.mobile-gamepad.landscape-mode .action-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 14px;
 }
 
 /* Print Styles */

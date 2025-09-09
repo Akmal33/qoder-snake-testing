@@ -45,8 +45,10 @@ A modern, responsive Snake game built with HTML5 Canvas, CSS3, and vanilla JavaS
 ### Mobile Controls
 - **On-Screen D-Pad**: Virtual directional pad for movement
 - **On-Screen Action Buttons**: Pause/Resume and Restart buttons
+- **Landscape Mode**: Optimized layout for landscape orientation
+- **Portrait Mode**: Traditional mobile layout with bottom gamepad
 - **Swipe Gestures**: Alternative swipe controls for movement
-- **Touch Interface**: Optimized for mobile browsers
+- **Touch Interface**: Optimized for mobile browsers with responsive design
 
 ### Game Rules
 1. Control the snake to eat food and grow longer
