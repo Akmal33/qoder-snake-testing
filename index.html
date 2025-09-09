@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 class="game-title">Snake Game</h1>
+            <div class="score-container">
+                <div class="score-display">
+                    <span class="score-label">Score:</span>
+                    <span id="current-score">0</span>
+                </div>
+                <div class="high-score-display">
+                    <span class="score-label">High Score:</span>
+                    <span id="high-score">0</span>
+                </div>
+            </div>
+        </header>
+        
+        <main class="game-main">
+            <canvas id="game-canvas" width="600" height="600"></canvas>
+            
+            <div class="game-overlay" id="game-overlay">
+                <div class="overlay-content">
+                    <h2 id="overlay-title">Game Over</h2>
+                    <p id="overlay-message">Press R to restart or Space to start</p>
+                    <div class="control-buttons">
+                        <button id="start-btn" class="game-button">Start Game</button>
+                        <button id="pause-btn" class="game-button">Pause</button>
+                        <button id="restart-btn" class="game-button">Restart</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="game-footer">
+            <div class="controls-info">
+                <div class="desktop-controls">
+                    <h3>Desktop Controls:</h3>
+                    <p>Arrow Keys or WASD to move • Space to pause • R to restart</p>
+                </div>
+                <div class="mobile-controls">
+                    <h3>Mobile Controls:</h3>
+                    <p>Swipe in any direction to move the snake</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Game Scripts -->
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/snake.js"></script>
+    <script src="scripts/food.js"></script>
+    <script src="scripts/collision.js"></script>
+    <script src="scripts/input.js"></script>
+    <script src="scripts/renderer.js"></script>
+    <script src="scripts/game.js"></script>
+</body>
+</html>
