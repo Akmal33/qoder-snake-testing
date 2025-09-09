@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Snake Game</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
@@ -25,6 +25,23 @@
         <main class="game-main">
             <canvas id="game-canvas" width="600" height="600"></canvas>
             
+            <!-- Mobile Virtual Gamepad -->
+            <div class="mobile-gamepad" id="mobile-gamepad">
+                <div class="dpad-container">
+                    <div class="dpad">
+                        <button class="dpad-btn dpad-up" data-direction="up">▲</button>
+                        <button class="dpad-btn dpad-left" data-direction="left">◄</button>
+                        <button class="dpad-btn dpad-center"></button>
+                        <button class="dpad-btn dpad-right" data-direction="right">►</button>
+                        <button class="dpad-btn dpad-down" data-direction="down">▼</button>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn pause-btn" data-action="pause">⏸</button>
+                    <button class="action-btn restart-btn" data-action="restart">🔄</button>
+                </div>
+            </div>
+            
             <div class="game-overlay" id="game-overlay">
                 <div class="overlay-content">
                     <h2 id="overlay-title">Game Over</h2>
@@ -46,7 +63,7 @@
                 </div>
                 <div class="mobile-controls">
                     <h3>Mobile Controls:</h3>
-                    <p>Swipe in any direction to move the snake</p>
+                    <p>Use the on-screen gamepad to move and control the game</p>
                 </div>
             </div>
         </footer>

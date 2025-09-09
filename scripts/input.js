@@ -7,12 +7,14 @@ class InputHandler {
         this.touchStartPos = null;
         this.touchEndPos = null;
         this.gameInstance = null;
+        this.isMobile = this.detectMobile();
         
         // Debounced and throttled input handlers
         this.debouncedKeyHandler = utils.debounce(this.handleKeyInput.bind(this), 50);
         this.throttledTouchHandler = utils.throttle(this.handleTouchInput.bind(this), 100);
         
         this.setupEventListeners();
+        this.initializeMobileGamepad();
     }
 
     /**
@@ -42,6 +44,9 @@ class InputHandler {
         // Focus events
         window.addEventListener('blur', this.onWindowBlur.bind(this));
         window.addEventListener('focus', this.onWindowFocus.bind(this));
+        
+        // Mobile gamepad events
+        this.setupMobileGamepad();
         
         // Prevent default behavior for game keys
         this.preventDefaultKeys();
@@ -289,6 +294,119 @@ class InputHandler {
                 this.gameInstance.restart();
                 break;
         }
+    }
+
+    /**
+     * Setup mobile gamepad event listeners
+     */
+    setupMobileGamepad() {
+        const gamepad = document.getElementById('mobile-gamepad');
+        if (!gamepad) return;
+        
+        // D-pad button events
+        const dpadButtons = gamepad.querySelectorAll('.dpad-btn[data-direction]');
+        dpadButtons.forEach(button => {
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const direction = button.getAttribute('data-direction');
+                this.handleGamepadDirection(direction);
+            }, { passive: false });
+            
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const direction = button.getAttribute('data-direction');
+                this.handleGamepadDirection(direction);
+            });
+        });
+        
+        // Action button events
+        const actionButtons = gamepad.querySelectorAll('.action-btn[data-action]');
+        actionButtons.forEach(button => {
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const action = button.getAttribute('data-action');
+                this.handleGamepadAction(action);
+            }, { passive: false });
+            
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = button.getAttribute('data-action');
+                this.handleGamepadAction(action);
+            });
+        });
+    }
+
+    /**
+     * Handle gamepad direction input
+     * @param {string} direction - Direction from gamepad
+     */
+    handleGamepadDirection(direction) {
+        if (!this.gameInstance) return;
+        
+        switch (direction) {
+            case 'up':
+                this.gameInstance.changeDirection(DIRECTIONS.UP);
+                break;
+            case 'down':
+                this.gameInstance.changeDirection(DIRECTIONS.DOWN);
+                break;
+            case 'left':
+                this.gameInstance.changeDirection(DIRECTIONS.LEFT);
+                break;
+            case 'right':
+                this.gameInstance.changeDirection(DIRECTIONS.RIGHT);
+                break;
+        }
+    }
+
+    /**
+     * Handle gamepad action input
+     * @param {string} action - Action from gamepad
+     */
+    handleGamepadAction(action) {
+        if (!this.gameInstance) return;
+        
+        switch (action) {
+            case 'pause':
+                this.gameInstance.togglePause();
+                break;
+            case 'restart':
+                this.gameInstance.restart();
+                break;
+        }
+    }
+
+    /**
+     * Detect if device is mobile
+     * @returns {boolean} True if mobile device
+     */
+    detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) ||
+               window.innerWidth <= 768;
+    }
+
+    /**
+     * Initialize mobile gamepad visibility
+     */
+    initializeMobileGamepad() {
+        const gamepad = document.getElementById('mobile-gamepad');
+        if (!gamepad) return;
+        
+        // Show gamepad on mobile devices or small screens
+        if (this.isMobile || window.innerWidth <= 1024) {
+            gamepad.style.display = 'flex';
+        }
+        
+        // Handle window resize for responsive gamepad
+        window.addEventListener('resize', () => {
+            const isMobileSize = window.innerWidth <= 1024;
+            if (this.isMobile || isMobileSize) {
+                gamepad.style.display = 'flex';
+            } else {
+                gamepad.style.display = 'none';
+            }
+        });
     }
 
     /**
